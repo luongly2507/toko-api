@@ -35,6 +35,9 @@ public class Category {
     
     @Column(nullable = false, unique = true, length = 100)
     private String name;
+
+    @Column(nullable = true)
+    private UUID parent;
     
     @Column(nullable = true, columnDefinition = "TEXT")
     private String description;

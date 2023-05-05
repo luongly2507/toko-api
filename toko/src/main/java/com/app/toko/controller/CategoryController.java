@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -53,10 +54,30 @@ public class CategoryController {
     value = { @ApiResponse(responseCode = "200", description = "OK") }
   )
   @GetMapping
-  public ResponseEntity<Page<CategoryResponse>> getAllCategory(
+  public ResponseEntity<Page<CategoryResponse>> getAllCategories(
     Pageable pageable
   ) {
     return ResponseEntity.ok(this.categoryService.getCategories(pageable));
+  }
+
+  @Operation(
+    description = "Get All Category PaParents",
+    summary = "Get All Categories",
+    responses = {
+      @ApiResponse(
+        content = @Content(
+          array = @ArraySchema(schema = @Schema(implementation = Page.class))
+        ),
+        responseCode = "200"
+      ),
+    }
+  )
+  @ApiResponses(
+    value = { @ApiResponse(responseCode = "200", description = "OK") }
+  )
+  @GetMapping("/parent")
+  public ResponseEntity<List<CategoryResponse>> getAllCategoryParents() {
+    return ResponseEntity.ok(this.categoryService.getCategoryParent());
   }
 
   @Operation(

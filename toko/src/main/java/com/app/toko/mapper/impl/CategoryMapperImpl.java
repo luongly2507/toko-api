@@ -17,7 +17,8 @@ public class CategoryMapperImpl implements CategoryMapper {
       .builder()
       .id(category.getId())
       .name(category.getName())
-      .description(category.getDescription())
+      .parent(category.getParent())
+      .imageSource(category.getDescription())
       .build();
   }
 

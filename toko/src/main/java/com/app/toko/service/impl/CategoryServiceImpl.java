@@ -10,6 +10,7 @@ import com.app.toko.payload.response.CategoryResponse;
 import com.app.toko.repository.CategoryRepository;
 import com.app.toko.service.CategoryService;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -77,5 +78,13 @@ public class CategoryServiceImpl implements CategoryService {
       .orElseThrow(() ->
         new ResourceNotFoundException("Category not found for id.")
       );
+  }
+
+  @Override
+  public List<CategoryResponse> getCategoryParent() {
+    return this.categoryRepository.findAllParent()
+      .stream()
+      .map(category -> categoryMapper.toCategoryResponse(category))
+      .toList();
   }
 }
