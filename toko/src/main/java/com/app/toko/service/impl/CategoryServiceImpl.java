@@ -59,8 +59,10 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponse createCategory(CreateCategoryRequest createCategoryRequest) {
         Category category = categoryMapper.toCategory(createCategoryRequest);
 
-        categoryValidation(createCategoryRequest.getName(), createCategoryRequest.getParent());
-
+        if (createCategoryRequest.getParent() != null
+                && !categoryRepository.existsById(createCategoryRequest.getParent())) {
+            throw new BadRequestException("Không tìm thấy danh mục cha.");
+        }
         // Check name is unique
         if (categoryRepository.existsByName(category.getName())) {
             throw new ConflictException("Tên danh mục đã tồn tại.");
@@ -72,12 +74,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void updateCategory(UUID id, UpdateCategoryRequest updateCategoryRequest) {
-        categoryValidation(updateCategoryRequest.getName(), updateCategoryRequest.getParent());
+        if (updateCategoryRequest.getParent() != null
+                && !categoryRepository.existsById(updateCategoryRequest.getParent())) {
+            throw new BadRequestException("Không tìm thấy danh mục cha.");
+        }
         Category category = this.findById(id);
         if (!updateCategoryRequest.getName().equals(category.getName())
                 && this.categoryRepository.existsByName(updateCategoryRequest.getName())) {
             throw new ConflictException("Tên danh mục đã tồn tại.");
         }
+
         this.categoryMapper.updateCategory(category, updateCategoryRequest);
         this.categoryRepository.save(category);
     }
@@ -92,20 +98,4 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy danh mục!"));
     }
 
-    private void categoryValidation(String name, UUID parent) {
-        // Check name is empty
-        if (name == null || name.isBlank()) {
-            throw new BadRequestException("Tên danh mục không được để trống.");
-        }
-        // Check name cannot exceed 150 characters
-        if (name.length() > 150) {
-            throw new BadRequestException("Tên danh mục không được quá 150 kí tự");
-        }
-        // Check parent is exists
-
-        if (parent != null && !categoryRepository.existsById(parent)) {
-            throw new BadRequestException("Không tìm thấy danh mục cha.");
-        }
-
-    }
 }

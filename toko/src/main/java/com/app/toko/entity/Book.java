@@ -73,9 +73,8 @@ public class Book {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "publisher_id")
-    private Publisher publisher;
+    @Column(nullable = false)
+    private String publisher;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private Set<Album> albums;
