@@ -1,6 +1,11 @@
 package com.app.toko.payload.response;
 
+import java.util.List;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,10 +15,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@JsonInclude(Include.NON_NULL)
 public class CategoryResponse {
-
   private UUID id;
   private String name;
-  private UUID parent;
-  private String imageSource;
+  private List<CategoryResponse> children;
 }

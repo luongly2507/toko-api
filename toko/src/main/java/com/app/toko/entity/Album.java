@@ -27,8 +27,8 @@ public class Album {
     @MapsId("book_id")
     @JoinColumn(name = "book_id")
     private Book book;
- 
+
     @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
     private boolean isPresentation;
-   
+
 }
