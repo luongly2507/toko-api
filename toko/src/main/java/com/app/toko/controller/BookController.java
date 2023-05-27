@@ -59,7 +59,6 @@ public class BookController {
         return ResponseEntity.created(location).build();
     }
 
-    @PostMapping("/{id}/images")
     public ResponseEntity<BookResponse> addBookImage(@RequestParam("file") MultipartFile file,
             boolean isPresentation, @PathVariable UUID bookId) {
         URI location = ServletUriComponentsBuilder
