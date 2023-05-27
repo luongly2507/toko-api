@@ -25,11 +25,11 @@ public class CreateBookRequest {
     private String language;
     private String description;
     private String edition;
-    @NotNull
+    @NotNull(message = "Giá bán không được trống!")
     private BigDecimal price;
-    @NotNull
+    @NotNull(message = "Giá nhập không được trống!")
     private BigDecimal cost;
-    @Min(0)
+    @Min(value = 0, message = "Số lượng không được nhỏ hơn 0!")
     private int quantity;
     private LocalDate publishcationDate;
     @NotBlank(message = "Tên tác giả không được trống!")

@@ -39,7 +39,7 @@ public class Book {
     @Column(nullable = false, length = 150)
     private String title;
 
-    @Column(nullable = false, length = 150)
+    @Column(nullable = true, length = 150)
     private String subTitle;
 
     @Column(nullable = false, length = 150)

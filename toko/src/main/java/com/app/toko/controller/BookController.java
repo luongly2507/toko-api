@@ -24,6 +24,8 @@ import com.app.toko.payload.request.UpdateBookRequest;
 import com.app.toko.payload.response.BookResponse;
 import com.app.toko.service.BookService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(ApiEndpoint.BOOKS)
 public class BookController {
@@ -41,21 +43,25 @@ public class BookController {
         return ResponseEntity.ok(this.bookService.getBookById(id));
     }
 
-    @PostMapping
-    public ResponseEntity<BookResponse> createBook(@RequestParam("files") MultipartFile[] files,
-            @RequestBody CreateBookRequest createBookRequest) {
+    @PostMapping()
+    public ResponseEntity<BookResponse> createBook(
+            @RequestParam(value = "avatar", required = true) MultipartFile avatar,
+            @RequestParam("files") MultipartFile[] files,
+
+            @Valid CreateBookRequest createBookRequest) {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(
-                        bookService.createBook(files, createBookRequest).getId())
+                        bookService.createBook(avatar, files, createBookRequest).getId())
                 .toUri();
+
         return ResponseEntity.created(location).build();
     }
 
-    @PostMapping
+    @PostMapping("/{id}/images")
     public ResponseEntity<BookResponse> addBookImage(@RequestParam("file") MultipartFile file,
-            boolean isPresentation, UUID bookId) {
+            boolean isPresentation, @PathVariable UUID bookId) {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

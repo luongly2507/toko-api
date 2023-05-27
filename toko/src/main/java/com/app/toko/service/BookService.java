@@ -14,7 +14,7 @@ public interface BookService {
 
     public BookResponse getBookById(UUID bookId);
 
-    public BookResponse createBook(MultipartFile[] files,
+    public BookResponse createBook(MultipartFile avatar, MultipartFile[] files,
             CreateBookRequest createBookRequests);
 
     public BookResponse updateBook(UUID id, UpdateBookRequest updateBookRequests);

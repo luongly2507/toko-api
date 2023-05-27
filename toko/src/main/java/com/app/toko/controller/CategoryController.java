@@ -22,6 +22,8 @@ import com.app.toko.payload.request.UpdateCategoryRequest;
 import com.app.toko.payload.response.CategoryResponse;
 import com.app.toko.service.CategoryService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(ApiEndpoint.CATEGORIES)
 public class CategoryController {
@@ -41,7 +43,7 @@ public class CategoryController {
 
   @PostMapping
   public ResponseEntity<CategoryResponse> createCategory(
-      @RequestBody CreateCategoryRequest createCategoryRequest) {
+      @RequestBody @Valid CreateCategoryRequest createCategoryRequest) {
     URI location = ServletUriComponentsBuilder
         .fromCurrentRequest()
         .path("/{id}")
@@ -53,7 +55,7 @@ public class CategoryController {
 
   @PutMapping("/{id}")
   public ResponseEntity<CategoryResponse> updateCategory(@PathVariable UUID id,
-      @RequestBody UpdateCategoryRequest updateCategoryRequest) {
+      @RequestBody @Valid UpdateCategoryRequest updateCategoryRequest) {
     this.categoryService.updateCategory(id, updateCategoryRequest);
     return ResponseEntity.noContent().build();
   }
