@@ -3,6 +3,8 @@ package com.app.toko.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.toko.payload.request.CreateBookRequest;
@@ -10,7 +12,7 @@ import com.app.toko.payload.request.UpdateBookRequest;
 import com.app.toko.payload.response.BookResponse;
 
 public interface BookService {
-    public List<BookResponse> getBooks();
+    public Page<BookResponse> getBooks(Pageable pageable);
 
     public BookResponse getBookById(UUID bookId);
 
@@ -24,4 +26,8 @@ public interface BookService {
     public void deleteImage(UUID bookId, String imageSource);
 
     public void deleteBook(UUID id);
+
+    public Page<BookResponse> searchBookByCategoryName(Pageable pageable, String categoryName);
+
+    public Page<BookResponse> searchBookByTitle(Pageable pageable, String title);
 }

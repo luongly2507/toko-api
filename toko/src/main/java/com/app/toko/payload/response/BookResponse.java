@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 public class BookResponse {
     private UUID id;
     private String title;
-    private String subTitle;
     private String language;
     private String description;
     private String edition;

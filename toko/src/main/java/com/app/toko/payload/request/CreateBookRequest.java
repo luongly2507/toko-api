@@ -20,7 +20,6 @@ public class CreateBookRequest {
 
     @NotBlank(message = "Tên sách không được trống!")
     private String title;
-    private String subTitle;
     @NotBlank(message = "Ngôn ngữ sách không được trống!")
     private String language;
     private String description;

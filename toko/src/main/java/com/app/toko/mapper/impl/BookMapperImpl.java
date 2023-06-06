@@ -10,6 +10,7 @@ import com.app.toko.mapper.CategoryMapper;
 import com.app.toko.payload.request.CreateBookRequest;
 import com.app.toko.payload.request.UpdateBookRequest;
 import com.app.toko.payload.response.BookResponse;
+import com.app.toko.repository.AlbumRepository;
 
 @Component
 public class BookMapperImpl implements BookMapper {
@@ -20,14 +21,16 @@ public class BookMapperImpl implements BookMapper {
     @Autowired
     private CategoryMapper categoryMapper;
 
+    @Autowired
+    AlbumRepository albumRepository;
+
     @Override
     public BookResponse toBookResponse(Book book) {
         return BookResponse.builder()
                 .id(book.getId())
                 .title(book.getTitle())
-                .subTitle(book.getSubTitle())
                 .authors(book.getAuthors())
-                .albums(albumMapper.toAlbumResponses(book.getAlbums()))
+                .albums(albumMapper.toAlbumResponses(albumRepository.findByBookId(book.getId())))
                 .category(categoryMapper.toCategoryResponse(book.getCategory()))
                 .price(book.getPrice())
                 .quantity(book.getQuantity())
@@ -43,7 +46,6 @@ public class BookMapperImpl implements BookMapper {
     public Book toBook(CreateBookRequest createBookRequest) {
         return Book.builder()
                 .title(createBookRequest.getTitle())
-                .subTitle(createBookRequest.getSubTitle())
                 .authors(createBookRequest.getAuthors())
                 .price(createBookRequest.getPrice())
                 .cost(createBookRequest.getCost())
@@ -59,7 +61,6 @@ public class BookMapperImpl implements BookMapper {
     @Override
     public void updateBook(Book book, UpdateBookRequest updateBookRequest) {
         book.setTitle(updateBookRequest.getTitle());
-        book.setSubTitle(updateBookRequest.getSubTitle());
         book.setAuthors(updateBookRequest.getAuthors());
         book.setPrice(updateBookRequest.getPrice());
         book.setCost(updateBookRequest.getCost());
@@ -69,6 +70,7 @@ public class BookMapperImpl implements BookMapper {
         book.setLanguage(updateBookRequest.getLanguage());
         book.setPublishcationDate(updateBookRequest.getPublishcationDate());
         book.setPublisher(updateBookRequest.getPublisher());
+
     }
 
 }

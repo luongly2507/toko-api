@@ -1,12 +1,16 @@
 package com.app.toko.service.impl;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.toko.entity.Album;
@@ -45,8 +49,9 @@ public class BookServiceImpl implements BookService {
     private BookMapper bookMapper;
 
     @Override
-    public List<BookResponse> getBooks() {
-        return bookRepository.findAll().stream().map(book -> bookMapper.toBookResponse(book)).toList();
+    public Page<BookResponse> getBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable)
+                .map(book -> bookMapper.toBookResponse(book));
     }
 
     @Override
@@ -57,7 +62,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponse createBook(MultipartFile avatar, MultipartFile[] files, CreateBookRequest createBookRequests) {
-        
+
         Book newBook = bookRepository.save(bookMapper.toBook(createBookRequests));
         newBook.setCategory(categoryRepository.findById(createBookRequests.getCategory())
                 .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy danh mục!")));
@@ -91,24 +96,58 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponse updateBook(UUID id, UpdateBookRequest updateBookRequests) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateBook'");
+        Book existsBook = bookRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy sách này!"));
+        bookMapper.updateBook(existsBook, updateBookRequests);
+        existsBook.setCategory(categoryRepository.findById(updateBookRequests.getCategory())
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy danh mục này")));
+        return bookMapper.toBookResponse(existsBook);
     }
 
     @Override
-    public BookResponse addImage(MultipartFile file, boolean isPresentation, UUID bookId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addImage'");
+    public BookResponse addImage(MultipartFile file, boolean isPresentation, UUID id) {
+        Book existsBook = bookRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy sách này!"));
+        existsBook.getAlbums().add(
+                Album.builder()
+                        .isPresentation(isPresentation)
+                        .id(
+                                AlbumId.builder()
+                                        .bookId(id)
+                                        .imageSource(storageService.store(
+                                                file))
+                                        .build())
+                        .build());
+        return bookMapper.toBookResponse(bookRepository.save(existsBook));
     }
 
     @Override
     public void deleteImage(UUID bookId, String imageSource) {
-        albumRepository.deleteById(AlbumId.builder().bookId(bookId).imageSource(imageSource).build());
+        try {
+            albumRepository.deleteById(AlbumId.builder().bookId(bookId).imageSource(imageSource).build());
+            FileSystemUtils.deleteRecursively(storageService.load(imageSource));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteBook(UUID id) {
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<BookResponse> searchBookByCategoryName(Pageable pageable, String categoryName) {
+        return bookRepository.findAllByCategoryNameContainingIgnoreCase(pageable, categoryName)
+                .map(book -> bookMapper.toBookResponse(book));
+
+    }
+
+    @Override
+    public Page<BookResponse> searchBookByTitle(Pageable pageable, String title) {
+        return bookRepository.findAllByTitleContainingIgnoreCase(pageable, title)
+                .map(book -> bookMapper.toBookResponse(book));
+
     }
 
 }
