@@ -1,6 +1,6 @@
 package com.app.toko.entity;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -27,18 +27,16 @@ public class Category {
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    
+
     @Column(nullable = false, unique = true, length = 100)
     private String name;
-    
-    @Column(nullable = true, columnDefinition = "TEXT")
-    private String description;
-    
+
+    @Column(nullable = true)
+    private UUID parent;
+
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Book> books;
+    private Set<Book> books;
+
 }
