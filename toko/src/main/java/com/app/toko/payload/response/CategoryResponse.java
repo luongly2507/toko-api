@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@JsonInclude(Include.NON_NULL)
 public class CategoryResponse {
   private UUID id;
   private String name;

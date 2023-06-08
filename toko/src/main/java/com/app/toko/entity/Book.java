@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @Entity
-@Table(name = "Book", uniqueConstraints = { @UniqueConstraint(columnNames = { "title", "edition" }) })
+@Table(name = "book", uniqueConstraints = { @UniqueConstraint(columnNames = { "title", "edition" }) })
 public class Book implements Serializable {
     @Id
     @Column(nullable = false, updatable = false)

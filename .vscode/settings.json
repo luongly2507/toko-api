@@ -1,3 +1,5 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "DockerRun.DisableAutoGenerateConfig": true,
+    "java.configuration.updateBuildConfiguration": "automatic"
 }

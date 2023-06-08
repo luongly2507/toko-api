@@ -49,7 +49,6 @@ public class StorageServiceImpl implements StorageService {
 			// remove spaces and make lowercase
 			fileName = fileName.concat(formatDateTime).concat(ext);
 			fileName = fileName.toLowerCase().replaceAll(" ", "-");
-			System.out.println(fileName);
 			this.rootLocation.resolve(Paths.get(file.getOriginalFilename()))
 					.normalize()
 					.toAbsolutePath();
