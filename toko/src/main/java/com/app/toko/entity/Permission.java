@@ -13,7 +13,16 @@ public enum Permission {
     MANAGER_READ("management:read"),
     MANAGER_UPDATE("management:update"),
     MANAGER_CREATE("management:create"),
-    MANAGER_DELETE("management:delete");
+    MANAGER_DELETE("management:delete"),
+    USER_READ("user:read"),
+    USER_WRITE("user:write"),
+    USER_UPDATE("user:update"),
+    USER_DELETE("user:delete"),
+    CART_READ("cart:read"),
+    CART_WRITE("cart:write"),
+    CART_UPDATE("cart:update"),
+    CART_DELETE("cart:delete"),
+    ;
 
     @Getter
     private final String permission;
