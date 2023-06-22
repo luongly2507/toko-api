@@ -1,13 +1,12 @@
 package com.app.toko.service.impl;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
+import com.app.toko.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
@@ -138,8 +137,30 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Page<BookResponse> searchBookByCategoryName(Pageable pageable, String categoryName) {
-        return bookRepository.findAllByCategoryNameContainingIgnoreCase(pageable, categoryName)
-                .map(book -> bookMapper.toBookResponse(book));
+        List<BookResponse> listBook = new ArrayList<>();
+        List<Category> children = new ArrayList<>();
+
+        for(Category parent : categoryRepository.findAllParent())
+        {
+            if(parent.getParent() != null) break;
+            if(Objects.equals(parent.getName(), categoryName))
+            {
+                System.out.println(parent.getName());
+                children = categoryRepository.findAllChildren(parent.getId());
+            }
+        }
+        if(children != null && children.size() > 0)
+        {
+
+            for(Category child : children)
+            {
+                listBook.addAll(bookRepository.findAllByCategoryNameContainingIgnoreCase(pageable , child.getName())
+                        .map(book -> bookMapper.toBookResponse(book)).stream().toList());
+            }
+            Page<BookResponse> bookResponsePage = new PageImpl<>(listBook);
+            return bookResponsePage;
+        }
+        return bookRepository.findAllByCategoryNameContainingIgnoreCase(pageable , categoryName).map(book -> bookMapper.toBookResponse(book));
 
     }
 
