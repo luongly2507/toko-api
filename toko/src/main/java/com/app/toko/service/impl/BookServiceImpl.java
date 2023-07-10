@@ -136,7 +136,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookResponse> searchBookByCategoryName(Pageable pageable, String categoryName) {
+    public Page<BookResponse> searchBookByCategoryName(Pageable pageable, String categoryName , String language) {
         List<BookResponse> listBook = new ArrayList<>();
         List<Category> children = new ArrayList<>();
 
@@ -154,19 +154,20 @@ public class BookServiceImpl implements BookService {
 
             for(Category child : children)
             {
-                listBook.addAll(bookRepository.findAllByCategoryNameContainingIgnoreCase(pageable , child.getName())
+                listBook.addAll(bookRepository.findAllByCategoryNameContainingIgnoreCaseAndLanguageContainingIgnoreCase(pageable , child.getName() , language)
                         .map(book -> bookMapper.toBookResponse(book)).stream().toList());
             }
             Page<BookResponse> bookResponsePage = new PageImpl<>(listBook);
             return bookResponsePage;
         }
-        return bookRepository.findAllByCategoryNameContainingIgnoreCase(pageable , categoryName).map(book -> bookMapper.toBookResponse(book));
+        return bookRepository.findAllByCategoryNameContainingIgnoreCaseAndLanguageContainingIgnoreCase(pageable , categoryName , language).map(book -> bookMapper.toBookResponse(book));
 
     }
 
     @Override
-    public Page<BookResponse> searchBookByTitle(Pageable pageable, String title) {
-        return bookRepository.findAllByTitleContainingIgnoreCase(pageable, title)
+    public Page<BookResponse> searchBookByTitle(Pageable pageable, String title , String language) {
+        System.out.println("That su ko ?" + language + title + bookRepository.findAllByTitleContainingIgnoreCaseAndLanguageContainingIgnoreCase(pageable,title , language).stream().toList());
+        return bookRepository.findAllByTitleContainingIgnoreCaseAndLanguageContainingIgnoreCase(pageable ,title , language)
                 .map(book -> bookMapper.toBookResponse(book));
 
     }

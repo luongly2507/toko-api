@@ -39,7 +39,7 @@ public class BookController {
     public ResponseEntity<Page<BookResponse>> getAllBooks(Pageable pageable) {
         return ResponseEntity.ok(this.bookService.getBooks(pageable));
     }
-
+    
     @GetMapping("/{id}")
     public ResponseEntity<BookResponse> getBookById(@PathVariable UUID id) {
         return ResponseEntity.ok(this.bookService.getBookById(id));
@@ -47,15 +47,14 @@ public class BookController {
 
     @GetMapping("/search/categories/")
     public ResponseEntity<Page<BookResponse>> getAllBooksByCategoryName(Pageable pageable,
-            @RequestParam("categoryName") String categoryName) {
-        System.out.println(categoryName);
-        return ResponseEntity.ok(this.bookService.searchBookByCategoryName(pageable, categoryName));
+            @RequestParam("categoryName") String categoryName , @RequestParam(defaultValue = "") String language) {
+        return ResponseEntity.ok(this.bookService.searchBookByCategoryName(pageable, categoryName , language));
     }
 
     @GetMapping("/search/")
     public ResponseEntity<Page<BookResponse>> getAllBooksByTitle(Pageable pageable,
-            @RequestParam("title") String title) {
-        return ResponseEntity.ok(this.bookService.searchBookByTitle(pageable, title));
+            @RequestParam("title") String title , @RequestParam( defaultValue = "") String language) {
+        return ResponseEntity.ok(this.bookService.searchBookByTitle(pageable, title , language));
     }
 
     @PostMapping()
