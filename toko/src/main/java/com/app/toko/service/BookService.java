@@ -27,7 +27,7 @@ public interface BookService {
 
     public void deleteBook(UUID id);
 
-    public Page<BookResponse> searchBookByCategoryName(Pageable pageable, String categoryName);
+    public Page<BookResponse> searchBookByCategoryName(Pageable pageable, String categoryName , String language);
 
-    public Page<BookResponse> searchBookByTitle(Pageable pageable, String title);
+    public Page<BookResponse> searchBookByTitle(Pageable pageable, String title , String language);
 }

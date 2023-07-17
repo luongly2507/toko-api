@@ -53,8 +53,8 @@ public class BookController {
 
     @GetMapping("/search/")
     public ResponseEntity<Page<BookResponse>> getAllBooksByTitle(Pageable pageable,
-            @RequestParam("title") String title) {
-        return ResponseEntity.ok(this.bookService.searchBookByTitle(pageable, title));
+            @RequestParam("title") String title, @RequestParam(defaultValue = "") String language) {
+        return ResponseEntity.ok(this.bookService.searchBookByTitle(pageable, title, language));
     }
 
     @PostMapping()
