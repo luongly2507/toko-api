@@ -1,6 +1,7 @@
 package com.app.toko.entity;
 
-import java.util.Collections;
+import static com.app.toko.entity.Permission.*;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -10,20 +11,18 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import static com.app.toko.entity.Permission.*;
-
 @RequiredArgsConstructor
 public enum Role {
 
         ADMIN(Set.of(
                         ADMIN_READ,
                         ADMIN_UPDATE,
-                        ADMIN_DELETE,
                         ADMIN_CREATE,
+                        ADMIN_DELETE,
                         MANAGER_READ,
                         MANAGER_UPDATE,
-                        MANAGER_DELETE,
                         MANAGER_CREATE,
+                        MANAGER_DELETE,
                         USER_READ,
                         USER_WRITE,
                         USER_UPDATE,
@@ -31,12 +30,28 @@ public enum Role {
                         CART_READ,
                         CART_WRITE,
                         CART_UPDATE,
-                        CART_DELETE)),
+                        CART_DELETE,
+                        ORDER_READ,
+                        ORDER_WRITE,
+                        CATEGORY_READ,
+                        CATEGORY_WRITE,
+                        CATEGORY_UPDATE,
+                        CATEGORY_DELETE,
+                        CONTACT_READ,
+                        CONTACT_WRITE,
+                        CONTACT_UPDATE,
+                        CONTACT_DELETE,
+                        BOOK_READ,
+                        BOOK_WRITE,
+                        BOOK_UPDATE,
+                        BOOK_DELETE,
+                        ALBUM_READ,
+                        ALBUM_WRITE,
+                        ALBUM_UPDATE,
+                        ALBUM_DELETE)),
         MANAGER(Set.of(
                         MANAGER_READ,
                         MANAGER_UPDATE,
-                        MANAGER_DELETE,
-                        MANAGER_CREATE,
                         USER_READ,
                         USER_WRITE,
                         USER_UPDATE,
@@ -44,18 +59,42 @@ public enum Role {
                         CART_READ,
                         CART_WRITE,
                         CART_UPDATE,
-                        CART_DELETE)
+                        CART_DELETE,
+                        ORDER_READ,
+                        ORDER_WRITE,
+                        CATEGORY_READ,
+                        CATEGORY_WRITE,
+                        CATEGORY_UPDATE,
+                        CATEGORY_DELETE,
+                        CONTACT_READ,
+                        CONTACT_WRITE,
+                        CONTACT_UPDATE,
+                        CONTACT_DELETE,
+                        BOOK_READ,
+                        BOOK_WRITE,
+                        BOOK_UPDATE,
+                        BOOK_DELETE,
+                        ALBUM_READ,
+                        ALBUM_WRITE,
+                        ALBUM_UPDATE,
+                        ALBUM_DELETE)
 
         ),
         USER(Set.of(
                         USER_READ,
                         USER_WRITE,
-                        USER_UPDATE,
-                        USER_DELETE,
                         CART_READ,
                         CART_WRITE,
                         CART_UPDATE,
-                        CART_DELETE
+                        CART_DELETE,
+                        ORDER_READ,
+                        CATEGORY_READ,
+                        CONTACT_READ,
+                        CONTACT_WRITE,
+                        CONTACT_UPDATE,
+                        CONTACT_DELETE,
+                        BOOK_READ,
+                        ALBUM_READ
 
         )),;
 

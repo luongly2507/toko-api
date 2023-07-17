@@ -1,13 +1,13 @@
 package com.app.toko.controller;
 
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,7 +48,6 @@ public class BookController {
     @GetMapping("/search/categories/")
     public ResponseEntity<Page<BookResponse>> getAllBooksByCategoryName(Pageable pageable,
             @RequestParam("categoryName") String categoryName) {
-        System.out.println(categoryName);
         return ResponseEntity.ok(this.bookService.searchBookByCategoryName(pageable, categoryName));
     }
 
@@ -59,10 +58,10 @@ public class BookController {
     }
 
     @PostMapping()
+    @PreAuthorize("hasAuthority('book:write')")
     public ResponseEntity<BookResponse> createBook(
             @RequestParam(value = "avatar", required = true) MultipartFile avatar,
             @RequestParam("files") MultipartFile[] files,
-
             @Valid CreateBookRequest createBookRequest) {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -85,6 +84,7 @@ public class BookController {
         return ResponseEntity.created(location).build();
     }
 
+    @PreAuthorize("hasAuthority('book:update')")
     @PutMapping("/{id}")
     public ResponseEntity<BookResponse> updateBook(@PathVariable UUID id,
             @RequestBody UpdateBookRequest updateBookRequest) {
@@ -92,14 +92,16 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAuthority('book:delete')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<BookResponse> deleteEmployee(
+    public ResponseEntity<BookResponse> deleteBook(
             @PathVariable UUID id) {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}/image/{imageSource}")
+    @PreAuthorize("hasAuthority('album:delete')")
     public ResponseEntity<BookResponse> deleteImage(
             @PathVariable UUID id, @PathVariable String imageSource) {
         bookService.deleteImage(id, imageSource);

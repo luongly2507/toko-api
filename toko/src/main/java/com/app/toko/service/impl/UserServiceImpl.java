@@ -3,6 +3,8 @@ package com.app.toko.service.impl;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.app.toko.exception.ResourceNotFoundException;
@@ -26,12 +28,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse getUserById(UUID id) {
         return userMapper.toUserResponse(userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy người dùng này !")));
+                .orElseThrow(() -> new ResourceNotFoundException("User Not Found !")));
     }
 
     @Override
     public void deleteUser(UUID id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<UserResponse> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable).map(
+                user -> userMapper.toUserResponse(user));
     }
 
 }
