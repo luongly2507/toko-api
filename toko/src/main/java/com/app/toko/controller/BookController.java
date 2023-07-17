@@ -47,8 +47,8 @@ public class BookController {
 
     @GetMapping("/search/categories/")
     public ResponseEntity<Page<BookResponse>> getAllBooksByCategoryName(Pageable pageable,
-            @RequestParam("categoryName") String categoryName) {
-        return ResponseEntity.ok(this.bookService.searchBookByCategoryName(pageable, categoryName));
+            @RequestParam("categoryName") String categoryName, @RequestParam(defaultValue = "") String language) {
+        return ResponseEntity.ok(this.bookService.searchBookByCategoryName(pageable, categoryName, language));
     }
 
     @GetMapping("/search/")

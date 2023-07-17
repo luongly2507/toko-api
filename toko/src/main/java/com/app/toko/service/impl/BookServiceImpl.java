@@ -1,9 +1,13 @@
 package com.app.toko.service.impl;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
-import com.app.toko.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.app.toko.entity.Album;
 import com.app.toko.entity.AlbumId;
 import com.app.toko.entity.Book;
+import com.app.toko.entity.Category;
 import com.app.toko.exception.ResourceNotFoundException;
 import com.app.toko.mapper.BookMapper;
 import com.app.toko.payload.request.CreateBookRequest;
@@ -136,38 +141,42 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookResponse> searchBookByCategoryName(Pageable pageable, String categoryName , String language) {
+    public Page<BookResponse> searchBookByCategoryName(Pageable pageable, String categoryName, String language) {
         List<BookResponse> listBook = new ArrayList<>();
         List<Category> children = new ArrayList<>();
 
-        for(Category parent : categoryRepository.findAllParent())
-        {
-            if(parent.getParent() != null) break;
-            if(Objects.equals(parent.getName(), categoryName))
-            {
+        for (Category parent : categoryRepository.findAllParent()) {
+            if (parent.getParent() != null)
+                break;
+            if (Objects.equals(parent.getName(), categoryName)) {
                 System.out.println(parent.getName());
                 children = categoryRepository.findAllChildren(parent.getId());
             }
         }
-        if(children != null && children.size() > 0)
-        {
+        if (children != null && children.size() > 0) {
 
-            for(Category child : children)
-            {
-                listBook.addAll(bookRepository.findAllByCategoryNameContainingIgnoreCaseAndLanguageContainingIgnoreCase(pageable , child.getName() , language)
+            for (Category child : children) {
+                listBook.addAll(bookRepository
+                        .findAllByCategoryNameContainingIgnoreCaseAndLanguageContainingIgnoreCase(pageable,
+                                child.getName(), language)
                         .map(book -> bookMapper.toBookResponse(book)).stream().toList());
             }
             Page<BookResponse> bookResponsePage = new PageImpl<>(listBook);
             return bookResponsePage;
         }
-        return bookRepository.findAllByCategoryNameContainingIgnoreCaseAndLanguageContainingIgnoreCase(pageable , categoryName , language).map(book -> bookMapper.toBookResponse(book));
+        return bookRepository.findAllByCategoryNameContainingIgnoreCaseAndLanguageContainingIgnoreCase(pageable,
+                categoryName, language).map(book -> bookMapper.toBookResponse(book));
 
     }
 
     @Override
-    public Page<BookResponse> searchBookByTitle(Pageable pageable, String title , String language) {
-        System.out.println("That su ko ?" + language + title + bookRepository.findAllByTitleContainingIgnoreCaseAndLanguageContainingIgnoreCase(pageable,title , language).stream().toList());
-        return bookRepository.findAllByTitleContainingIgnoreCaseAndLanguageContainingIgnoreCase(pageable ,title , language)
+    public Page<BookResponse> searchBookByTitle(Pageable pageable, String title, String language) {
+        System.out.println("That su ko ?" + language + title
+                + bookRepository
+                        .findAllByTitleContainingIgnoreCaseAndLanguageContainingIgnoreCase(pageable, title, language)
+                        .stream().toList());
+        return bookRepository
+                .findAllByTitleContainingIgnoreCaseAndLanguageContainingIgnoreCase(pageable, title, language)
                 .map(book -> bookMapper.toBookResponse(book));
 
     }
