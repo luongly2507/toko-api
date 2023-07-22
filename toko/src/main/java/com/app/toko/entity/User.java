@@ -2,6 +2,7 @@ package com.app.toko.entity;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -47,6 +48,12 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Token> tokens;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Order> orders;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Contact> contacts;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

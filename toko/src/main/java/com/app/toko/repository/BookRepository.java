@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookRepository extends JpaRepository<Book, UUID> {
 
-    Page<Book> findAllByCategoryNameContainingIgnoreCase(Pageable pageable, String categoryName);
+    Page<Book> findAllByCategoryNameContainingIgnoreCaseAndLanguageContainingIgnoreCase(Pageable pageable, String categoryName , String language);
 
-    Page<Book> findAllByTitleContainingIgnoreCase(Pageable pageable, String title);
+    Page<Book> findAllByTitleContainingIgnoreCaseAndLanguageContainingIgnoreCase(Pageable pageable ,String title, String language );
 }
