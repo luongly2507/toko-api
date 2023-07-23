@@ -1,5 +1,9 @@
 package com.app.toko.mapper.impl;
 
+import com.app.toko.entity.OrderDetail;
+import com.app.toko.mapper.OrderMapper;
+import com.app.toko.payload.response.OrderDetailResponse;
+import com.app.toko.repository.OrderDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +15,9 @@ import com.app.toko.payload.request.CreateBookRequest;
 import com.app.toko.payload.request.UpdateBookRequest;
 import com.app.toko.payload.response.BookResponse;
 import com.app.toko.repository.AlbumRepository;
+
+import java.util.List;
+import java.util.UUID;
 
 @Component
 public class BookMapperImpl implements BookMapper {
@@ -24,8 +31,12 @@ public class BookMapperImpl implements BookMapper {
     @Autowired
     AlbumRepository albumRepository;
 
+
+
+
     @Override
     public BookResponse toBookResponse(Book book) {
+        //System.out.println(getQuantity(book.getId()));
         return BookResponse.builder()
                 .id(book.getId())
                 .title(book.getTitle())
@@ -41,7 +52,6 @@ public class BookMapperImpl implements BookMapper {
                 .publisher(book.getPublisher())
                 .build();
     }
-
     @Override
     public Book toBook(CreateBookRequest createBookRequest) {
         return Book.builder()

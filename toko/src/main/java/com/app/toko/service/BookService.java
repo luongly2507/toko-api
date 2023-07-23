@@ -2,6 +2,8 @@ package com.app.toko.service;
 
 import java.util.UUID;
 
+import com.app.toko.payload.response.OrderDetailResponse;
+import com.app.toko.payload.response.OrderResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,4 +31,6 @@ public interface BookService {
     public Page<BookResponse> searchBookByCategoryName(Pageable pageable, String categoryName, String language);
 
     public Page<BookResponse> searchBookByTitle(Pageable pageable, String title, String language);
+
+    public Page<BookResponse> getBooksByPurchase(Pageable pageable);
 }

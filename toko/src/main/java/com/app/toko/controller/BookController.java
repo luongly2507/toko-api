@@ -3,6 +3,7 @@ package com.app.toko.controller;
 import java.net.URI;
 import java.util.UUID;
 
+import com.app.toko.payload.response.OrderDetailResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,7 +57,11 @@ public class BookController {
             @RequestParam("title") String title, @RequestParam(defaultValue = "") String language) {
         return ResponseEntity.ok(this.bookService.searchBookByTitle(pageable, title, language));
     }
-
+    @GetMapping("/purchase/")
+    public ResponseEntity<Page<BookResponse>> getAllBooksByPurchase(Pageable pageable )
+    {
+        return ResponseEntity.ok(this.bookService.getBooksByPurchase(pageable));
+    }
     @PostMapping()
     @PreAuthorize("hasAuthority('book:write')")
     public ResponseEntity<BookResponse> createBook(
