@@ -36,7 +36,7 @@ public class CartServiceImpl implements CartService {
                 .build();
         Optional<Cart> cartOptional = cartRepository.findById(cartId);
         if (cartOptional.isEmpty()) {
-            Cart cart = Cart.builder().id(cartId).quantity(1).build();
+            Cart cart = Cart.builder().id(cartId).quantity(updateCartItemRequest.getQuantity()).build();
             cartRepository.save(cart);
         } else {
             Cart cart = cartOptional.get();
