@@ -13,6 +13,8 @@ public class CreateContactRequest {
 
     private String telephone;
 
+    private String receiver;
+
     private String city;
 
     private String district;

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class UpdateContactRequest {
 
     private String telephone;
+    private String receiver;
 
     private String city;
 

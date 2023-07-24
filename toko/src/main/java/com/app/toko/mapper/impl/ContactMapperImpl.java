@@ -16,6 +16,7 @@ public class ContactMapperImpl implements ContactMapper {
         return ContactResponse.builder()
                 .id(contact.getId())
                 .telephone(contact.getTelephone())
+                .receiver(contact.getReceiver())
                 .city(contact.getCity())
                 .district(contact.getDistrict())
                 .ward(contact.getWard())
@@ -26,7 +27,7 @@ public class ContactMapperImpl implements ContactMapper {
     @Override
     public Contact toContact(CreateContactRequest createContactRequest) {
         return Contact.builder()
-
+                .receiver(createContactRequest.getReceiver())
                 .line(createContactRequest.getLine())
                 .ward(createContactRequest.getWard())
                 .district(createContactRequest.getDistrict())
@@ -42,6 +43,7 @@ public class ContactMapperImpl implements ContactMapper {
         contact.setWard(updateContactRequest.getWard());
         contact.setLine(updateContactRequest.getLine());
         contact.setTelephone(updateContactRequest.getTelephone());
+        contact.setReceiver(updateContactRequest.getReceiver());
     }
 
 }

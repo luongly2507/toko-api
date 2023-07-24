@@ -47,7 +47,5 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderDetail> orderDetails;
 
-    @Column
-    private Double receiverName;
 
 }

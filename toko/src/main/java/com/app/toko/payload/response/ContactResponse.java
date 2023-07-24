@@ -15,6 +15,8 @@ public class ContactResponse {
     private UUID id;
     private String telephone;
 
+    private String receiver;
+
     private String city;
 
     private String district;
