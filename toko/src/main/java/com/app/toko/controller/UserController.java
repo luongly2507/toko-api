@@ -146,7 +146,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("hasAuthority('user:update')")
+    @PreAuthorize("hasAuthority('user:write')")
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUserInfo(@PathVariable UUID id,
             @RequestBody UpdateUserInfoRequest userInfoRequest) {
