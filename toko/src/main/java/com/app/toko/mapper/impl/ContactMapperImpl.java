@@ -21,6 +21,7 @@ public class ContactMapperImpl implements ContactMapper {
                 .district(contact.getDistrict())
                 .ward(contact.getWard())
                 .line(contact.getLine())
+                .isDefault(contact.getIsDefault())
                 .build();
     }
 
@@ -33,6 +34,7 @@ public class ContactMapperImpl implements ContactMapper {
                 .district(createContactRequest.getDistrict())
                 .city(createContactRequest.getCity())
                 .telephone(createContactRequest.getTelephone())
+                .isDefault(createContactRequest.getIsDefault())
                 .build();
     }
 
@@ -44,6 +46,7 @@ public class ContactMapperImpl implements ContactMapper {
         contact.setLine(updateContactRequest.getLine());
         contact.setTelephone(updateContactRequest.getTelephone());
         contact.setReceiver(updateContactRequest.getReceiver());
+        contact.setIsDefault(updateContactRequest.getIsDefault());
     }
 
 }

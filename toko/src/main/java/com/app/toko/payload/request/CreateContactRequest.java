@@ -22,4 +22,6 @@ public class CreateContactRequest {
     private String ward;
 
     private String line;
+
+    private Boolean isDefault;
 }

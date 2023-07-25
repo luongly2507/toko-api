@@ -24,4 +24,6 @@ public class ContactResponse {
     private String ward;
 
     private String line;
+
+    private Boolean isDefault;
 }

@@ -21,4 +21,5 @@ public class UpdateContactRequest {
     private String ward;
 
     private String line;
+    private Boolean isDefault;
 }

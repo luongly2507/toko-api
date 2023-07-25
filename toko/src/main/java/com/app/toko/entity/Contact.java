@@ -48,4 +48,6 @@ public class Contact {
     private User user;
 
     private String receiver;
+
+    private Boolean isDefault;
 }
