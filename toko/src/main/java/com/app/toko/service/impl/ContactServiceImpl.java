@@ -3,6 +3,7 @@ package com.app.toko.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import com.app.toko.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,13 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public ContactResponse createContact(UUID userId, CreateContactRequest createContactRequest) {
         Contact contact = contactMapper.toContact(createContactRequest);
-        contact.setUser(userRepository.findById(userId).orElseThrow());
+        User user = userRepository.findById(userId).orElseThrow();
+        if(user.getContacts() != null && user.getContacts().size() == 0)
+        {
+            contact.setIsDefault(true);
+        }
+        else contact.setIsDefault(false);
+        contact.setUser(user);
         return contactMapper.toContactResponse(contactRepository.save(contact));
     }
 

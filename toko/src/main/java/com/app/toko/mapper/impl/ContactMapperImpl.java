@@ -34,7 +34,6 @@ public class ContactMapperImpl implements ContactMapper {
                 .district(createContactRequest.getDistrict())
                 .city(createContactRequest.getCity())
                 .telephone(createContactRequest.getTelephone())
-                .isDefault(createContactRequest.getIsDefault())
                 .build();
     }
 

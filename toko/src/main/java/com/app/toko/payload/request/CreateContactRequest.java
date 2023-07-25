@@ -23,5 +23,4 @@ public class CreateContactRequest {
 
     private String line;
 
-    private Boolean isDefault;
 }
