@@ -45,11 +45,11 @@ public class ContactServiceImpl implements ContactService {
     public ContactResponse createContact(UUID userId, CreateContactRequest createContactRequest) {
         Contact contact = contactMapper.toContact(createContactRequest);
         User user = userRepository.findById(userId).orElseThrow();
-        if(user.getContacts() != null && user.getContacts().size() == 0)
+        int amount = contactRepository.findByUserId(userId).size();
+        if(amount == 0)
         {
             contact.setIsDefault(true);
-        }
-        else contact.setIsDefault(false);
+        } else contact.setIsDefault(false);
         contact.setUser(user);
         return contactMapper.toContactResponse(contactRepository.save(contact));
     }
