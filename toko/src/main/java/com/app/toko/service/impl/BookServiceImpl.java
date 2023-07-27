@@ -218,7 +218,7 @@ public class BookServiceImpl implements BookService {
         List<BookResponse> books = new ArrayList<>();
         List<BookResponse> allBooks = new ArrayList<>();
         for (OrderDetailResponse orderDetailResponse : rank) {
-            books.add(orderDetailResponse.getBook());
+            if(!books.contains(orderDetailResponse.getBook())) books.add(orderDetailResponse.getBook());
         }
         allBooks = bookRepository.findAll().stream().map(book-> bookMapper.toBookResponse(book)).toList();
         if(books.size() < 10)

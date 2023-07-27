@@ -70,15 +70,15 @@ public class UserController {
     }
 
     // CONTACT
-    @PreAuthorize("hasAuthority('contact:read')")
+    //@PreAuthorize("hasAuthority('contact:read')")
     @GetMapping("/{id}/contacts/")
 
     public ResponseEntity<List<ContactResponse>> getUserContacts(@PathVariable UUID id) {
         return ResponseEntity.ok(contactService.getAllContactsByUserId(id));
     }
 
-    @PreAuthorize("hasAuthority('contact:read')")
-    @GetMapping("/{userId}/contacts/{contactid}/")
+    //@PreAuthorize("hasAuthority('contact:read')")
+    @GetMapping("/{userId}/contacts/{contactId}/")
     public ResponseEntity<ContactResponse> getUserContact(@PathVariable UUID userId,
             @PathVariable UUID contactId) {
         return ResponseEntity.ok(contactService.getContact(contactId));
